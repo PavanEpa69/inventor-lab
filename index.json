@@ -1,0 +1,34 @@
+{
+  "title": "Tortil: the secret scan that only fails in CI",
+  "description": "A pre-commit secret scan passes on every laptop and fails in CI at the same commit. Find the divergence and make CI green without weakening the check.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Make CI green the right way",
+        "text": "TASK.md",
+        "verify": "verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    },
+    "assets": {
+      "host01": [
+        {
+          "file": "*",
+          "target": "/root/scenario-files"
+        }
+      ]
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  },
+  "interface": {
+    "layout": "ide"
+  }
+}

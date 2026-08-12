@@ -1,0 +1,14 @@
+# Tortil pre-commit configuration.
+#
+# NOTE(rmeyer, 2024-11-08): the secret scan was firing on every commit while we
+# were cleaning up the config module, so I narrowed it to the worker to keep the
+# hook quiet. Revisit when that cleanup lands.
+repos:
+  - repo: local
+    hooks:
+      - id: tortil-secret-scan
+        name: Tortil secret scan
+        entry: python3 scripts/scan_secrets.py
+        language: system
+        pass_filenames: true
+        files: ^app/worker\.py$
