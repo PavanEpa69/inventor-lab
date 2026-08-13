@@ -16,6 +16,11 @@ REPO_URL="${TORTIL_LAB_REPO_URL:-https://github.com/PavanEpa69/inventor-lab.git}
 # has not been pointed at a real repository yet.
 ASSET_DIR="/root/scenario-files"
 
+# Killercoda discovers scenarios by scanning top-level directories for an
+# index.json, so the lab lives one level down inside the repo rather than at
+# its root. The clone has to be descended into.
+SCENARIO_SUBDIR="tortil-secret-scan"
+
 export DEBIAN_FRONTEND=noninteractive
 
 if ! command -v git >/dev/null 2>&1; then
@@ -24,14 +29,21 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 rm -rf "$LAB_DIR"
+mkdir -p "$LAB_DIR"
 
-if ! git clone --depth 1 --quiet "$REPO_URL" "$LAB_DIR" 2>/dev/null; then
+CLONE_DIR="$(mktemp -d)"
+
+if git clone --depth 1 --quiet "$REPO_URL" "$CLONE_DIR" 2>/dev/null &&
+   [ -d "$CLONE_DIR/$SCENARIO_SUBDIR" ]; then
+  cp -r "$CLONE_DIR/$SCENARIO_SUBDIR"/. "$LAB_DIR"/
+else
   echo "background: clone failed, falling back to scenario assets" >&2
-  mkdir -p "$LAB_DIR"
   if [ -d "$ASSET_DIR" ]; then
     cp -r "$ASSET_DIR"/. "$LAB_DIR"/
   fi
 fi
+
+rm -rf "$CLONE_DIR"
 
 cd "$LAB_DIR" || exit 1
 

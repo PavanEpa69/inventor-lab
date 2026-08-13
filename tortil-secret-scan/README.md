@@ -55,23 +55,25 @@ Killercoda scenarios are served straight out of a public GitHub repo.
 1. Keep instructor notes **out of this repo** — it is public, and anything
    committed here stays in its history.
 2. Point `REPO_URL` in `background.sh` at the public HTTPS clone URL of that
-   repo (or set `TORTIL_LAB_REPO_URL`). `background.sh` clones it to
-   `/root/tortil-lab` inside the VM, strips the instructor/wrapper files, and
-   `git init`s it so the scanner works.
+   repo (or set `TORTIL_LAB_REPO_URL`). `background.sh` clones it, copies
+   `$SCENARIO_SUBDIR` out of the clone into `/root/tortil-lab` inside the VM,
+   strips the instructor/wrapper files, and `git init`s it so the scanner
+   works.
 3. Push the repo to GitHub, public.
 4. Sign in at <https://killercoda.com/creator> and connect the repository under
    *Creator → Repositories*. Killercoda installs a push webhook, so **every
    subsequent push re-syncs the scenario automatically** — there is no separate
    publish step after the first connect.
-5. **Each top-level folder in the repo is one scenario**, keyed by its
-   `index.json`. This repo is a single scenario served from the repository
-   root; to host several labs side by side, move each into its own folder
-   (`tortil-secret-scan/`, `next-lab/`, …) with its own `index.json`, and
-   Killercoda will list them separately.
+5. **Each scenario must live in its own top-level folder**, keyed by the
+   `index.json` inside it. Killercoda discovers scenarios by scanning
+   subdirectories — an `index.json` at the repository root is **not** picked
+   up, and the scenario fails to load. This lab is served from
+   `tortil-secret-scan/`; add further labs as sibling folders (`next-lab/`, …)
+   and Killercoda will list them separately.
 6. The scenario is reachable at
-   `https://killercoda.com/<your-profile>/scenario/<folder-or-repo-name>`.
-   Scenarios stay private to you until you mark them public in the creator
-   area.
+   `https://killercoda.com/<your-profile>/scenario/<folder-name>` — for this
+   lab, `.../scenario/tortil-secret-scan`. Scenarios stay private to you until
+   you mark them public in the creator area.
 
 Wrapper details: `index.json` uses the `ubuntu` backend with the `ide` layout,
 one step whose `verify` is `verify.sh`, which `cd`s to `/root/tortil-lab` and
