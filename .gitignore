@@ -1,1 +1,6 @@
 .claude/
+
+# Instructor notes. Must never reach the public handout repo — the scenario
+# folder is what gets published and cloned into the VM, and this sits outside
+# it, but ignore it here as well so it cannot be committed by accident.
+SOLUTION.md

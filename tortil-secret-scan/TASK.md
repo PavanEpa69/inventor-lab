@@ -16,7 +16,7 @@ the hook locally — clean, committed, pushed. CI went red immediately:
 
 ```
 $ python3 scripts/scan_secrets.py
-scan_secrets: 9 file(s) scanned, 1 finding(s):
+scan_secrets: 8 file(s) scanned, 1 finding(s):
   app/config_loader.py:13: [inline-postgres-password] database URL with an inline username:password
 scan_secrets: FAILED - remove the credential from source control
 ```
